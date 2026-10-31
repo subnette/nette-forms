@@ -463,16 +463,20 @@ final class Rules implements \IteratorAggregate
 	 */
 	public function getIterator(): \Iterator
 	{
-		$priorities = [
-			0 => [], // Blank
-			1 => $this->required ? [$this->required] : [],
-			2 => [], // other rules
-		];
+		$blank = $other = [];
 		foreach ($this->rules as $rule) {
-			$priorities[$rule->checksBlank() && $rule->control === $this->control ? 0 : 2][] = $rule;
+			if ($rule->checksBlank() && $rule->control === $this->control) {
+				$blank[] = $rule;
+			} else {
+				$other[] = $rule;
+			}
 		}
 
-		return new \ArrayIterator(array_merge(...$priorities));
+		if ($this->required) {
+			$blank[] = $this->required;
+		}
+
+		return new \ArrayIterator($other ? [...$blank, ...$other] : $blank); // Blank first, then Required, then others
 	}
 
 

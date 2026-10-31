@@ -7,7 +7,7 @@
 
 namespace Nette\Forms\Validation;
 
-use function is_scalar, strlen;
+use function count, is_scalar, strlen;
 
 
 /**
@@ -50,7 +50,10 @@ final readonly class Message implements \Stringable
 			$parameters['count'] ??= $this->count;
 		}
 
-		uksort($parameters, fn(string $a, string $b): int => strlen($b) <=> strlen($a));
+		if (count($parameters) > 1) {
+			uksort($parameters, fn(string $a, string $b): int => strlen($b) <=> strlen($a));
+		}
+
 		foreach ($parameters as $name => $value) {
 			$value = $coerce ? $coerce($value) : $value;
 			$value = $value instanceof \BackedEnum ? $value->value : $value;

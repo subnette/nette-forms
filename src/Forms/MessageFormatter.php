@@ -172,6 +172,10 @@ final class MessageFormatter
 		?Nette\Localization\Translator $translator,
 	): string
 	{
+		if (!str_contains($message, '%')) {
+			return $message;
+		}
+
 		return preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue, $translator) {
 			static $i = -1;
 			switch ($m[1]) {
