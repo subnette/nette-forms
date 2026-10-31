@@ -47,7 +47,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue(): mixed
 	{
-		$value = $this->value === Strings::trim((string) $this->translate($this->emptyValue))
+		$value = $this->emptyValue !== '' && $this->value === Strings::trim((string) $this->translate($this->emptyValue))
 			? ''
 			: $this->value;
 		return $this->nullable && $value === '' ? null : $value;

@@ -594,7 +594,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function getErrors(): array
 	{
-		return array_values(array_unique($this->errors));
+		return $this->errors ? array_values(array_unique($this->errors)) : [];
 	}
 
 

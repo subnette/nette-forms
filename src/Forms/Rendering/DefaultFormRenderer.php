@@ -586,7 +586,8 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 
 	protected function getValue(string $name): mixed
 	{
-		$name = explode(' ', $name);
-		return $this->wrappers[$name[0]][$name[1]] ?? null;
+		static $keys = [];
+		$key = $keys[$name] ??= explode(' ', $name);
+		return $this->wrappers[$key[0]][$key[1]] ?? null;
 	}
 }
